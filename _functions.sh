@@ -136,6 +136,44 @@ _press_any_key() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Git log find by commit message
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+glf() { 
+   git log --all --grep="$1"; 
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Git clone shortcut for either my repo or someone else's.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+clone {
+   if [ $# -eq 0 ]; then
+      echo "Please enter repo name or full url:";
+      read repo;
+      clone $repo;
+   elif [[ $1 == --help ]] || [[ $1 == --h ]] || [[ $1 == --? ]]; then
+      echo "This will clone a git repo.";
+      echo "";
+      echo "Option 1: You can just provide the name, eg:";
+      echo "$ clone membership";
+      echo "This will do: git clone https://github.com/techieguy1/membership.git";
+      echo "";
+      echo "Option 2: Provide the full URL";
+      echo "$ clone https://github.com/smallrye/smallrye-rest-client.git";
+      echo "This will do: git clone https://github.com/smallrye/smallrye-rest-client.git";
+   else
+      if [[ $1 == https://* ]] || [[ $1 == git://* ]] || [[ $1 == ssh://* ]] ; then
+          URL=$1;
+      else
+          URL='https://github.com/techieguy1/'$1'.git';
+      fi
+
+      echo git clone "$URL";
+      git clone "$URL";
+   fi
+}
+
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 #                    M   A   I   N
 #
