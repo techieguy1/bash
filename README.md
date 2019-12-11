@@ -19,9 +19,9 @@ Also includes .vimrc script(s).
    Example: If your home directory is located at /home/bill,
             then you would put .bashrc file there.
 
-            `~/.bashrc`
-              or 
-            `/home/bill/.bashrc`
+   `~/.bashrc`
+     **OR**
+   `/home/bill/.bashrc`
 
 4. Source the .bashrc script.
 
