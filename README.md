@@ -19,13 +19,13 @@ Also includes .vimrc script(s).
    Example: If your home directory is located at /home/bill,
             then you would put .bashrc file there.
 
-            ~/.bashrc 
+            `~/.bashrc`
               or 
-            /home/bill/.bashrc
+            `/home/bill/.bashrc`
 
 4. Source the .bashrc script.
 
-   . ~/.bashrc
+   `. ~/.bashrc`
 
 # Utilities Folder
 
