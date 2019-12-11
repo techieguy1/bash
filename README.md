@@ -27,3 +27,6 @@ Also includes .vimrc script(s).
 
    . ~/.bashrc
 
+# Utilities Folder
+
+- rsync.sh: Simple bash script for backing up items to a remote machine.
