@@ -1,0 +1,5 @@
+export GRAPHVIZ_DOT=/usr/local/bin/dot
+export JAVA_HOME=/opt/java11
+export JRE_HOME=${JAVA_HOME}
+
+export PATH="${JAVA_HOME}/bin:${JRE_HOME}/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${GRAPHVIZ_DOT}/bin:${PATH}"

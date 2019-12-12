@@ -1,6 +1,9 @@
 # bash
 
-Repository of several bash scripts and resource files.
+Repository of several bash scripts and resource files. Please note some items within these scripts
+are specific for Mac. You should be able to intuitively discern whether they're needed for your
+Linux system or if they can be removed altogether. For example, brew items are not needed for 
+Linux and can be safely removed.
 
 Also includes .vimrc script(s). 
 
@@ -9,8 +12,8 @@ Also includes .vimrc script(s).
 1. mkdir ~/.bash_resources
 2. Put aliases and exports files in ~/.bash_resources.
    
-   exports file is *not* included in git because there is some sensitive information 
-   in my files.
+   The original exports file is *not* included in git because it contains some sensitive information. I have
+   created a sample exports file for which you can use. Just drop the .sample extension.
 
    Google how to create an export in bash if you are unsure.
 
