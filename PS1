@@ -1,0 +1,18 @@
+# Some sample PS1's I picked up around the Internet. Sample output does not include 
+# any coloring, unfortunately.
+
+1. PS1='\n\[\033[0;35m\]\342\224\214\342\224\200$([[ $? != 0 ]] && echo "[\[\033[0;37m\]\342\234\227\[\033[0;35m\]]\342\224\200")[\[\033[0;33m\]\t\[\033[0;35m\]]\342\224\200[\[\033[0;37m\]\u@\h : \[\033[0;32m\]\w\[\033[0;35m\]]\n\342\224\224\342\224\200\342\224\200> \[\033[0;37m\]$ \[\033[0m\]'
+
+Example output: 
+  ┌─[20:12:10]─[techieguy@Ursa-Minor : ~/Documents/iso]
+  └──> $
+
+
+2. PS1="${LIGHTBLUE}\h -- ${LIGHTGREEN}\d \t ${LIGHTCYAN}[\w]\n${LIGHTCYAN}\u \$ ${WHITE}"
+
+Example output:
+   Ursa-Minor -- Wed Dec 11 20:05:35 [~/Documents/iso]
+   techieguy $
+
+
+
