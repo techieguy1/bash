@@ -15,4 +15,22 @@ Example output:
    techieguy $
 
 
+3. Multi-line PS1
 
+PS1="\n${LIGHTCYAN}┌─▶${PURPLE} \$(/bin/date '+%Y-%m-%d %H:%M:%S') ${LIGHTBLUE}\$(/usr/bin/tty | /usr/bin/sed -e 's:/dev/::'): "
+PS1+="\$(pwd) "
+PS1+="${LIGHTCYAN}\$(/bin/ls -1 | /usr/bin/wc -l | /usr/bin/sed 's: ::g') "
+PS1+="files ${YELLOW}\$(/bin/ls -lah | /usr/bin/grep -m 1 total | /usr/bin/sed 's/total //')b"
+if [[ ${EUID} == 0 ]] ; then
+   PS1+="\n${LIGHTCYAN}├─▶${LIGHTRED} \u@\h "
+else
+   PS1+="\n${LIGHTCYAN}├─▶${LIGHTGREEN} \u@\h "
+fi
+PS1+="${LIGHTGREEN}${LIGHTCYAN}\$(git_branch)${LIGHTGREEN} "
+PS1+="\n${LIGHTCYAN}└─▶${RESET_ALL} "
+export PS1
+
+Example output: 
+   ┌─▶ 2019-12-21 22:18:22 ttys001: /Users/techieguy/Dev/Bash 7 files 80b
+   ├─▶ techieguy@Ursa-Minor (master)
+   └─▶
