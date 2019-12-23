@@ -105,10 +105,10 @@ will not be in your favor. Just don't do it.
 1. Likewise, the best O/S is the one that you're most confortable using. Each O/S has their advantages
 and disadvantages.
     - I use MacOS, Linux, and Windows equally.
-1. If you're in your 30's and 40's and still gaming on the weekends and into the wee-hours of the night, 
+1. If you're in your 30's and 40's and still gaming on the weekends and into the wee hours of the night, 
 it's time to grow up.
-    - Oh, gaming passes the time, and it's fun? Well, those people in point 9 will always have an edge
-      on you, and you've jeoparized point 8.
+    - Oh, gaming passes the time, and it's fun? Well, those Indians, Russians, and Chinese will always 
+      have an edge on you, and you've jeoparized "Never. Stop. Learning."
 1. Don't ever skimp out of getting a good monitor. Your eyes will thank you.
 1. If you do a lot of virtualization, it's way cheaper to buy a gaming system than a server/workstation
 (if you're not running a business). 
