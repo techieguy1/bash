@@ -90,8 +90,8 @@ W3Schools, any of the YouTube programming channels, etc.
 17. Documentation is key not only for others but for yourself. If you wrote code 6 months ago, and it
 had no documentation (and that also includes no comments in the code), you will waste a lot of time trying
 to figure out what you did.
-   - Oh, your code is self-documenting? Bull shit. I've seen enough self-documenting code in my days
-     to say that it's crap. Javadocs and Doxygen weren't invented for nothing.
+    - Oh, your code is self-documenting? Bull shit. I've seen enough self-documenting code in my days
+      to say that it's crap. Javadocs and Doxygen weren't invented for nothing.
 18. Every programmer should learn C (not C++) or Assembler. It really helps you understand how computers 
 work at a low level. 
 19. Don't attempt to hack into your friend's or neighbor's wifi. The consequences are huge, and the law 
