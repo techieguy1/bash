@@ -7,7 +7,7 @@ Linux and can be safely removed.
 
 Also includes some dotfiles. 
 
-# Installation
+## Installation
 
 1. mkdir ~/.bash_resources
 2. Put aliases and exports files in ~/.bash_resources.
@@ -37,11 +37,11 @@ script that sources .bashrc. Just drop the .bash_profile in your home's root dir
 easier to remember. Others on the internet used abbreviated versions of the color names which I don't 
 like. 
 
-# Utilities Folder
+## Utilities Folder
 
 - rsync.sh: Simple bash script for backing up items to a remote machine.
 
-# About Me
+## About Me
 
 I'm in my 50's and have been programming and hacking since I was 13. My first time using a computer was on
 an Apple 1 which instantly hooked me. My first computer was a Commodore Vic-20. I am a seasoned Software 
