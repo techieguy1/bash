@@ -81,6 +81,15 @@ _separator() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Warning
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+_warning() {
+   printf "${BLACK}${BACK_YELLOW}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
+   printf "${BLACK}${BACK_YELLOW}!        W A R N I N G     W A R N I N G     W A R N I N G     W A R N I N G     W A R N I N G        !${RESET_ALL}\n"     
+   printf "${BLACK}${BACK_YELLOW}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Error
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _error() {
@@ -197,6 +206,46 @@ git_branch() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 free() {
    top -l 1 -s 0 | awk ' /Processes/ || /PhysMem/  {print}'
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Trash functions. Note: MacOS uses ~/.Trash directory which can also be used here. The following is
+# specific for the command line.
+#
+# trash() - Moves the file to the trash directory.
+# empty() - Empties all contents of the trash directory.
+#
+# TODO Implement restore capabilities by keeping track of the directory location of the file that was
+#      put in the trash.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+trash() {
+   if [[ ! -d  ~/.local/Trash ]]; then
+      mkdir -p ~/.local/Trash
+   fi
+   mv -f ${1} ~/.local/Trash 
+}
+
+empty() {
+   if [[ -z "$(ls -A ~/.local/Trash)" ]]; then 
+      _separator 
+      _print_yellow "Trash is already empty."
+      _separator
+   else
+      _warning
+      echo -n "Are you sure want to empty the trash? Type exactly YES > "
+      read answer
+      if [[ ${answer} == "YES" ]]; then 
+         cd ~/.local/Trash
+         rm -fr *
+         _separator
+	 _print_cyan "Trash emptied."
+	 _separator
+      else
+         _separator
+	 _print_yellow "Trash not emptied."
+	 _separator
+      fi 
+   fi
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
