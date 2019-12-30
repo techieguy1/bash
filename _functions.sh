@@ -218,13 +218,22 @@ free() {
 # TODO Implement restore capabilities by keeping track of the directory location of the file that was
 #      put in the trash.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Add an item to the trash.
 trash() {
    if [[ ! -d  ~/.local/Trash ]]; then
       mkdir -p ~/.local/Trash
    fi
-   mv -f ${1} ~/.local/Trash 
+   if [[ "X${1}" == "X" ]]; then 
+      _error
+      echo ""
+      _print_cyan "You must supply a file to be trashed."
+   else
+      mv -f ${1} ~/.local/Trash 
+   fi
 }
 
+# Empty the trash.
 empty() {
    if [[ -z "$(ls -A ~/.local/Trash)" ]]; then 
       _separator 
