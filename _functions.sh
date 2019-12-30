@@ -212,12 +212,32 @@ free() {
 # Trash functions. Note: MacOS uses ~/.Trash directory which can also be used here. The following is
 # specific for the command line.
 #
+# checkt() - Checks the trash to see if there are any items in it.
 # trash() - Moves the file to the trash directory.
 # empty() - Empties all contents of the trash directory.
 #
 # TODO Implement restore capabilities by keeping track of the directory location of the file that was
 #      put in the trash.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# Is there anything in the trash?
+checkt() {
+   local items_files=`find ~/.local/Trash -type f -name '*' -print | wc -l | xargs`
+   local items_directories=`find ~/.local/Trash -type d -name '*' -print | wc -l | xargs`
+   local size=`du -hs ~/.local/Trash | cut -f1 | xargs`
+
+   if [[ ${items_files} == "0" ]]; then
+      _separator
+      _print_cyan "Trash is empty." 
+      _separator
+   else
+      _separator
+      _print_cyan "Trash has ${items_files} files in it."
+      _print_cyan "Trash has ${items_directories} directories in it."
+      _print_cyan "Total size is ${size}b."
+      _separator
+  fi
+}
 
 # Add an item to the trash.
 trash() {
@@ -241,7 +261,9 @@ empty() {
       _separator
    else
       _warning
-      echo -n "Are you sure want to empty the trash? Type exactly YES > "
+      checkt
+      echo ""
+      echo -n "Are you sure want to empty the trash? Type exactly YES to empty: "
       read answer
       if [[ ${answer} == "YES" ]]; then 
          cd ~/.local/Trash
