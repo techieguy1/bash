@@ -198,7 +198,7 @@ clone() {
 # Git branch shortcut for the PS1 command line. 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 git_branch() {
-   git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/' 
+   git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git─▶ \1)/' 
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -227,10 +227,12 @@ checkt() {
    local size=`du -hs ~/.local/Trash | cut -f1 | xargs`
 
    if [[ ${items_files} == "0" ]]; then
+      echo ""
       _separator
       _print_cyan "Trash is empty." 
       _separator
    else
+      echo ""
       _separator
       _print_cyan "Trash has ${items_files} files in it."
       _print_cyan "Trash has ${items_directories} directories in it."
@@ -247,7 +249,9 @@ trash() {
    if [[ "X${1}" == "X" ]]; then 
       _error
       echo ""
+      _separator 
       _print_cyan "You must supply a file to be trashed."
+      _separator 
    else
       mv -f ${1} ~/.local/Trash 
    fi
@@ -256,6 +260,7 @@ trash() {
 # Empty the trash.
 empty() {
    if [[ -z "$(ls -A ~/.local/Trash)" ]]; then 
+      echo ""
       _separator 
       _print_yellow "Trash is already empty."
       _separator
@@ -268,10 +273,12 @@ empty() {
       if [[ ${answer} == "YES" ]]; then 
          cd ~/.local/Trash
          rm -fr *
+         echo ""
          _separator
 	 _print_cyan "Trash emptied."
 	 _separator
       else
+         echo ""
          _separator
 	 _print_yellow "Trash not emptied."
 	 _separator
