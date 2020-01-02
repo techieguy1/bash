@@ -13,7 +13,8 @@
 ########################################################################################################
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Define colors
+# Define colors...Color names are spelled out for easier remembrance. Too much to type? Take a typing
+# class.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _colors() {
    # Escape characters
@@ -105,7 +106,6 @@ _error() {
 # Example: _error_exit "Your custom error  message" ${LINENO}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _error_exit() {
-
    _error
    _print_cyan "${1:-"Unknown Error"} on line ${2}."
    exit
@@ -115,7 +115,6 @@ _error_exit() {
 # This is a clean exit (no errors).
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _exit() {
-
    _print_cyan "${1}"
    exit
 }
@@ -138,7 +137,6 @@ _print_yellow() {
 # Press any key to continue...
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _press_any_key() {
-
    printf "${LIGHT_BLUE}"
    read -p "Press enter to continue..."
    printf "${NO_COLOR}"
@@ -172,7 +170,7 @@ clone() {
       echo "Please enter repo name or full url:";
       read repo;
       clone $repo;
-   elif [[ $1 == --help ]] || [[ $1 == --h ]] || [[ $1 == --? ]]; then
+   elif [[ ${1} == --help ]] || [[ ${1} == --h ]] || [[ ${1} == --? ]]; then
       echo "This will clone a git repo.";
       echo "";
       echo "Option 1: You can just provide the name, eg:";
@@ -183,10 +181,10 @@ clone() {
       echo "$ clone https://github.com/smallrye/smallrye-rest-client.git";
       echo "This will do: git clone https://github.com/smallrye/smallrye-rest-client.git";
    else
-      if [[ $1 == https://* ]] || [[ $1 == git://* ]] || [[ $1 == ssh://* ]] ; then
-          URL=$1;
+      if [[ ${1} == https://* ]] || [[ ${1} == git://* ]] || [[ ${1} == ssh://* ]] ; then
+          URL=${1};
       else
-          URL='https://github.com/techieguy1/'$1'.git';
+          URL='https://github.com/techieguy1/'${1}'.git';
       fi
 
       echo git clone "$URL";
@@ -195,7 +193,8 @@ clone() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Git branch shortcut for the PS1 command line. 
+# Git branch shortcut for the PS1 command line. The beauty of this function is that if there isn't .git
+# directory, you won't see an empty git─▶ directive.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 git_branch() {
    git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git─▶ \1)/' 
@@ -209,24 +208,24 @@ free() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Trash functions. Note: MacOS uses ~/.Trash directory which can also be used here. The following is
-# specific for the command line.
+# Trash functions. Note: MacOS uses ~/.Trash directory which I don't recommend using here. The following 
+# is specific for the command line.
 #
 # checkt() - Checks the trash to see if there are any items in it.
 # trash() - Moves the file to the trash directory.
-# empty() - Empties all contents of the trash directory.
+# empty() - Empties _ALL_ contents of the trash directory.
 #
-# TODO Implement restore capabilities by keeping track of the directory location of the file that was
-#      put in the trash.
+# TODO 1. Implement restore capabilities by keeping track of the directory location of the trashed file.
+# TODO 2. Empty one item at a time. 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Is there anything in the trash?
 checkt() {
-   local items_files=`find ~/.local/Trash -type f -name '*' -print | wc -l | xargs`
-   local items_directories=`find ~/.local/Trash -type d -name '*' -print | wc -l | xargs`
-   local size=`du -hs ~/.local/Trash | cut -f1 | xargs`
+   local items_files=`find ${TRASH_LOCATION} -type f -name '*' -print | wc -l | xargs`
+   local items_directories=`find ${TRASH_LOCATION} -type d -name '*' -print | wc -l | xargs`
+   local size=`du -hs ${TRASH_LOCATION} | cut -f1 | xargs`
 
-   if [[ ${items_files} == "0" ]]; then
+   if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then
       echo ""
       _separator
       _print_cyan "Trash is empty." 
@@ -243,8 +242,8 @@ checkt() {
 
 # Add an item to the trash.
 trash() {
-   if [[ ! -d  ~/.local/Trash ]]; then
-      mkdir -p ~/.local/Trash
+   if [[ ! -d ${TRASH_LOCATION} ]]; then
+      mkdir -p ${TRASH_LOCATION}   
    fi
    if [[ "X${1}" == "X" ]]; then 
       _error
@@ -253,13 +252,13 @@ trash() {
       _print_cyan "You must supply a file to be trashed."
       _separator 
    else
-      mv -f ${1} ~/.local/Trash 
+      mv -f ${1} ${TRASH_LOCATION} 
    fi
 }
 
 # Empty the trash.
 empty() {
-   if [[ -z "$(ls -A ~/.local/Trash)" ]]; then 
+   if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then 
       echo ""
       _separator 
       _print_yellow "Trash is already empty."
@@ -271,19 +270,31 @@ empty() {
       echo -n "Are you sure want to empty the trash? Type exactly YES to empty: "
       read answer
       if [[ ${answer} == "YES" ]]; then 
-         cd ~/.local/Trash
-         rm -fr *
+         rm -fr ${TRASH_LOCATION}/*
          echo ""
          _separator
-	 _print_cyan "Trash emptied."
-	 _separator
+         _print_cyan "Trash emptied."
+         _separator
       else
          echo ""
          _separator
-	 _print_yellow "Trash not emptied."
-	 _separator
-      fi 
+         _print_yellow "Trash not emptied."
+         _separator
+      fi
    fi
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Log my session using script.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+log() {
+   if [[ ! -d ${SESSION_LOCATION} ]]; then
+      mkdir -p ${SESSION_LOCATION}
+   fi
+
+   SESSION_DATE=`date +"%Y%m%d%H%M%S"`
+   _separator; _print_cyan "Press CTRL-D or type 'exit' to exit logging."; _separator
+   script ${SESSION_LOCATION}/session_${SESSION_DATE}.log
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -291,4 +302,7 @@ empty() {
 #                    M   A   I   N
 #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Execute these immediately. 
+TRASH_LOCATION=~/.local/Trash
+SESSION_LOCATION=~/.local/session
 _colors
