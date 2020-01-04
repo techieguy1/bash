@@ -1,3 +1,5 @@
+alias sss="source ~/.bashrc"
+
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for ls.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,10 +28,12 @@ alias showf='declare -F'
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias cdb="cd ~/.bash_resources"
 alias cdd="cd ~/Dev/bash"
-alias cde="cd /Users/techieguy/Documents/eclipse-workspace"
+alias cde="cd ~/Documents/eclipse-workspace"
 alias cdl="cd /usr/local"
 alias cdo="cd /opt"
 alias cdt="cd ~/.local/Trash"
+alias cdv="cd /Volumes/VirtualMachines"
+alias down="cd ~/Downloads"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for git.
