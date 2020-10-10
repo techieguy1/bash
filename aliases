@@ -3,11 +3,12 @@ alias sss="source ~/.bashrc"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for ls.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-alias ls='gls --color=auto --group-directories-first'
+alias ls='ls --color=auto --group-directories-first'
 alias ll='ls -l'
 alias la='ls -aFl'
 alias l='ls -lA '
 alias lt='du -sh * | sort -h'
+alias df="df -hT"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for grep-ping.
@@ -27,13 +28,15 @@ alias showf='declare -F'
 # Change directory short cuts.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias cdb="cd ~/.bash_resources"
-alias cdd="cd ~/Dev/bash"
-alias cde="cd ~/Documents/eclipse-workspace"
+alias cdd="cd ~/dev/bash"
+alias cde="cd ~/dev/eclipseWorkspace"
 alias cdl="cd /usr/local"
 alias cdo="cd /opt"
 alias cdt="cd ~/.local/Trash"
-alias cdv="cd /Volumes/VirtualMachines"
+alias cdv="cd ~/vmware"
+alias dev="cd ~/dev"
 alias down="cd ~/Downloads"
+alias sun="cd ~/docs/sundays"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for git.

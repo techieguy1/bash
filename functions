@@ -10,6 +10,17 @@
 #----------+--------------------------------------------------------------------------------------------
 # 20191127 | Vince: Initial revision.
 #----------+--------------------------------------------------------------------------------------------
+# 20200912 | Vince: Added \[ ... \] to prevent the command line history from shifting "right" when 
+#          | going through the history. This is due to the non-printable sequences making bash think
+#          | the line is bigger than it should be. So, \e[30m is around 5 characters. Escaping it to
+#          | \[\e[30m\] essentially makes it 0 characters.
+#          |
+#          | Example (what I want): root@machine > last_command 1 2 3 4
+#          | Example (what I got) : root@machine > last_last_command 1 2 3 4
+#          |
+#          | Adding \[ ... \] around the color codes in the PS1 command prompt brings us back to "what
+#          | I want".
+#----------+--------------------------------------------------------------------------------------------
 ########################################################################################################
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -18,60 +29,60 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _colors() {
    # Escape characters
-   ESC="\e["
+   ESC="\[\e["
    
    # Set
-   BOLD="${ESC}1m"
-   DIM="${ESC}2m"
-   UNDERLINE="${ESC}4m"
-   BLINK="${ESC}5m"
-   REVERSE="${ESC}7m"
-   HIDDEN="${ESC}8m"
+   BOLD="${ESC}1m\]"
+   DIM="${ESC}2m\]"
+   UNDERLINE="${ESC}4m\]"
+   BLINK="${ESC}5m\]"
+   REVERSE="${ESC}7m\]"
+   HIDDEN="${ESC}8m\]"
 
    # Reset
-   RESET_ALL="${ESC}0m"
-   NO_BOLD="${ESC}21m"
-   NO_DIM="${ESC}22m"
-   NO_UNDERLINE="${ESC}24m"
-   NO_BLINK="${ESC}25m"
-   NO_REVERSE="${ESC}27m"
-   NO_HIDDEN="${ESC}28m"
+   RESET_ALL="${ESC}0m\]"
+   NO_BOLD="${ESC}21m\]"
+   NO_DIM="${ESC}22m\]"
+   NO_UNDERLINE="${ESC}24m\]"
+   NO_BLINK="${ESC}25m\]"
+   NO_REVERSE="${ESC}27m\]"
+   NO_HIDDEN="${ESC}28m\]"
          
    # Standard 16 colors
-   BLACK="${ESC}30m"
-   RED="${ESC}31m"
-   GREEN="${ESC}32m"
-   ORANGE="${ESC}33m"
-   BLUE="${ESC}34m"
-   PURPLE="${ESC}35m"
-   CYAN="${ESC}36m"
-   LIGHTGRAY="${ESC}37m"
-   DARKGRAY="${ESC}90m"
-   LIGHTRED="${ESC}91m"
-   LIGHTGREEN="${ESC}92m"
-   YELLOW="${ESC}93m"
-   LIGHTBLUE="${ESC}94m"
-   LIGHTPURPLE="${ESC}95m"
-   LIGHTCYAN="${ESC}96m"
-   WHITE="${ESC}97m"
+   BLACK="${ESC}30m\]"
+   RED="${ESC}31m\]"
+   GREEN="${ESC}32m\]"
+   ORANGE="${ESC}33m\]"
+   BLUE="${ESC}34m\]"
+   PURPLE="${ESC}35m\]"
+   CYAN="${ESC}36m\]"
+   LIGHTGRAY="${ESC}37m\]"
+   DARKGRAY="${ESC}90m\]"
+   LIGHTRED="${ESC}91m\]"
+   LIGHTGREEN="${ESC}92m\]"
+   YELLOW="${ESC}93m\]"
+   LIGHTBLUE="${ESC}94m\]"
+   LIGHTPURPLE="${ESC}95m\]"
+   LIGHTCYAN="${ESC}96m\]"
+   WHITE="${ESC}97m\]"
    
    # Backgrounds
-   BACK_BLACK="${ESC}40m"
-   BACK_RED="${ESC}41m"
-   BACK_GREEN="${ESC}42m"
-   BACK_ORANGE="${ESC}43m"
-   BACK_BLUE="${ESC}44m"
-   BACK_PURPLE="${ESC}45m"
-   BACK_CYAN="${ESC}46m"
-   BACK_LIGHTGRAY="${ESC}47m"
-   BACK_DARKGRAY="${ESC}100m"
-   BACK_LIGHTRED="${ESC}101m"
-   BACK_LIGHTGREEN="${ESC}102m"
-   BACK_YELLOW="${ESC}103m"
-   BACK_LIGHTBLUE="${ESC}104m"
-   BACK_LIGHTPURPLE="${ESC}105m"
-   BACK_LIGHTCYAN="${ESC}106m"
-   BACK_WHITE="${ESC}107m"
+   BACK_BLACK="${ESC}40m\]"
+   BACK_RED="${ESC}41m\]"
+   BACK_GREEN="${ESC}42m\]"
+   BACK_ORANGE="${ESC}43m\]"
+   BACK_BLUE="${ESC}44m\]"
+   BACK_PURPLE="${ESC}45m\]"
+   BACK_CYAN="${ESC}46m\]"
+   BACK_LIGHTGRAY="${ESC}47m\]"
+   BACK_DARKGRAY="${ESC}100m\]"
+   BACK_LIGHTRED="${ESC}101m\]"
+   BACK_LIGHTGREEN="${ESC}102m\]"
+   BACK_YELLOW="${ESC}103m\]"
+   BACK_LIGHTBLUE="${ESC}104m\]"
+   BACK_LIGHTPURPLE="${ESC}105m\]"
+   BACK_LIGHTCYAN="${ESC}106m\]"
+   BACK_WHITE="${ESC}107m\]"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,26 +212,19 @@ git_branch() {
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Mac Only - Prints number of process and the memory being used. 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-free() {
-   top -l 1 -s 0 | awk ' /Processes/ || /PhysMem/  {print}'
-}
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Trash functions. Note: MacOS uses ~/.Trash directory which I don't recommend using here. The following 
 # is specific for the command line.
 #
-# checkt() - Checks the trash to see if there are any items in it.
-# trash() - Moves the file to the trash directory.
-# empty() - Empties _ALL_ contents of the trash directory.
+# check_trash() - Checks the trash to see if there are any items in it.
+# add_2_trash() - Moves the file to the trash directory.
+# empty_trash() - Empties _ALL_ contents of the trash directory.
 #
 # TODO 1. Implement restore capabilities by keeping track of the directory location of the trashed file.
 # TODO 2. Empty one item at a time. 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Is there anything in the trash?
-checkt() {
+check_trash() {
    local items_files=`find ${TRASH_LOCATION} -type f -name '*' -print | wc -l | xargs`
    local items_directories=`find ${TRASH_LOCATION} -type d -name '*' -print | wc -l | xargs`
    local size=`du -hs ${TRASH_LOCATION} | cut -f1 | xargs`
@@ -241,7 +245,7 @@ checkt() {
 }
 
 # Add an item to the trash.
-trash() {
+add_2_trash() {
    if [[ ! -d ${TRASH_LOCATION} ]]; then
       mkdir -p ${TRASH_LOCATION}   
    fi
@@ -257,7 +261,7 @@ trash() {
 }
 
 # Empty the trash.
-empty() {
+empty_trash() {
    if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then 
       echo ""
       _separator 
@@ -282,6 +286,35 @@ empty() {
          _separator
       fi
    fi
+}
+
+# "Deletes" files and/or directories to my trash location.
+remove() {
+   # Ensure trash location is there.
+   if [[ ! -d ${TRASH_LOCATION} ]]; then
+      mkdir -p ${TRASH_LOCATION}
+   fi
+
+   # If parameter 1 of rm is empty, throw an error and break out of the function.
+   if [[ "X${1}" == "X" ]]; then
+      _error
+      echo ""
+      _separator
+      _print_cyan "You must supply a file or directory to be trashed."
+      _separator
+      return
+   fi
+
+   # Get location of the file or directory that is being deleted. NOTE: Removing a
+   # directory will also remove all content under that directory - exactly how rm -r
+   # works EXCEPT that the file will be moved with full path to trash instead of
+   # actually being deleted.
+   if [[ -f ${1} ]]; then
+      FILE_BASENAME=`basename ${1}`
+   elif [[ -d ${1} ]]; then
+      DIR_BASENAME=`basename ${1}` 
+   fi
+   DIRECTORY_LOCATION=`readlink ${1}` 
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
