@@ -10,13 +10,7 @@ Also includes some dotfiles.
 ## Installation
 
 1. mkdir ~/.bash_resources
-2. Put aliases and exports files in ~/.bash_resources.
-   
-   The original exports file is *not* included in git because it contains some sensitive information. I have
-   created a sample exports file for which you can use. Just drop the .sample extension.
-
-   Google how to create an exported variable in bash if you are unsure.
-
+2. Put aliases, exports, ps1, functions, and bash_ubuntu files in ~/.bash_resources.
 3. Put .bashrc in your home's root directory.
 
    Example: If your home directory is located at /home/bill,
@@ -29,11 +23,13 @@ Also includes some dotfiles.
 4. Source the .bashrc script.
 
    `. ~/.bashrc`
+     **OR**
+   `source ~/.bashrc`
 
 5. If .bashrc isn't sourcing when you bring up a terminal, then you'll need to create a .bash_profile
 script that sources .bashrc. Just drop the .bash_profile in your home's root directory. See included file.
 
-6. The \_functions.sh script contains a colors() function. I used full color name definitions to make it 
+6. The functions script contains a colors() function. I used full color name definitions to make it 
 easier to remember. Others on the internet used abbreviated versions of the color names which I don't 
 like. 
 
