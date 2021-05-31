@@ -1,12 +1,21 @@
-export GRAPHVIZ_DOT=/usr/local/bin/dot
-export JAVA_HOME=/opt/java11
-export JRE_HOME=${JAVA_HOME}
+export JAVA_HOME=${HOME}/apps/java
+export JRE_HOME=${HOME}/apps/java
+export CUDA_HOME=${HOME}/cuda
+#export GRAPHVIZ_DOT=/usr/local/bin/dot
+#export PYTHONPATH=${HOME}/opt/python-modules
+
+export PATH=~/bin/fvwm-crystal/bin:~/bin/eddie-ui:${CUDA_HOME}/bin:${JAVA_HOME}/bin:${JRE_HOME}/bin:${GRAPHVIZ_DOT}/bin:${PATH}
+
+export LD_LIBRARY_PATH=${HOME}/cuda/lib64:${LD_LIBRARY_PATH}
 
 # History setup for all machines.
 export HISTIGNORE="ls:ll:history:h:&:[bf]g:dig*:ping:pwd:exit"
 export HISTTIMEFORMAT='%F %T '
 export HISTSIZE=1000
 export HISTFILE=${HOME}/.bash_hist
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Colorize and fancy formatting for man pages.
 export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode – red
@@ -17,4 +26,9 @@ export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode – yellow
 export LESS_TERMCAP_ue=$(printf '\e[0m')     # leave underline mode
 export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
 
-export PATH="${JAVA_HOME}/bin:${JRE_HOME}/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:${GRAPHVIZ_DOT}/bin:${PATH}"
+#export QT_STYLE_OVERRIDE=Adwaita-Dark
+#export QT_QPA_PLATFORMTHEME=gtk2
+#export QTLIB=/usr/lib64/qt5/lib
+#export QTINC=/usr/lib64/qt5/include
+#export QTDIR=/usr/lib64/qt5
+#export PATH=${QTDIR}/bin:${PATH}
