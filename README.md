@@ -1,9 +1,6 @@
 # bash
 
-Repository of several bash scripts and resource files. Please note some items within these scripts
-are specific for Mac. You should be able to intuitively discern whether they're needed for your
-Linux system or if they can be removed altogether. For example, brew items are not needed for 
-Linux and can be safely removed.
+Repository of several bash scripts and resource files. 
 
 Also includes some dotfiles. 
 
