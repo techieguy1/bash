@@ -49,9 +49,8 @@ alias cdo="cd /opt"
 alias cdt="cd ~/.local/Trash"
 alias cdv="cd ~/vmware"
 alias dev="cd ~/dev"
-alias docs="cd ~/Documents"
+alias docs="cd ~/docs"
 alias down="cd ~/Downloads"
-alias sun="cd ~/docs/sundays"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for root.
