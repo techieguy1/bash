@@ -6,6 +6,9 @@
 # Set the command-line functionality to vi.
 set -o vi
 
+# Set the masking of files being created to the owner only.
+umask 077
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
