@@ -19,7 +19,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias dfa="/usr/bin/df -hT"
 alias df="/usr/bin/df -hT | grep -v /dev/loop | grep -v tmpfs | grep -v udev"
-alias dir='dir --color=auto'
+alias dir='ls -l | grep ^d'
 alias lt='du -sh * | sort -h'
 alias vdir='vdir --color=auto'
 
