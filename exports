@@ -1,12 +1,13 @@
 export JAVA_HOME=${HOME}/apps/java
 export JRE_HOME=${HOME}/apps/java
-export CUDA_HOME=${HOME}/cuda
+#export CUDA_HOME=${HOME}/cuda
 #export GRAPHVIZ_DOT=/usr/local/bin/dot
 #export PYTHONPATH=${HOME}/opt/python-modules
 
-export PATH=~/bin/fvwm-crystal/bin:~/bin/eddie-ui:${CUDA_HOME}/bin:${JAVA_HOME}/bin:${JRE_HOME}/bin:${GRAPHVIZ_DOT}/bin:${PATH}
+#export PATH=~/bin/fvwm-crystal/bin:~/bin/eddie-ui:${CUDA_HOME}/bin:${JAVA_HOME}/bin:${JRE_HOME}/bin:${GRAPHVIZ_DOT}/bin:${PATH}
+export PATH=${JAVA_HOME}/bin:${JRE_HOME}/bin:${PATH}
 
-export LD_LIBRARY_PATH=${HOME}/cuda/lib64:${LD_LIBRARY_PATH}
+#export LD_LIBRARY_PATH=${HOME}/cuda/lib64:${LD_LIBRARY_PATH}
 
 # History setup for all machines.
 export HISTIGNORE="ls:ll:history:h:&:[bf]g:dig*:ping:pwd:exit"
