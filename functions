@@ -10,15 +10,15 @@
 #----------+--------------------------------------------------------------------------------------------
 # 20191127 | Vince: Initial revision.
 #----------+--------------------------------------------------------------------------------------------
-# 20200912 | Vince: Added \[ ... \] to prevent the command line history from shifting "right" when 
+# 20200912 | Vince: Added \[ ...  to prevent the command line history from shifting "right" when 
 #          | going through the history. This is due to the non-printable sequences making bash think
 #          | the line is bigger than it should be. So, \e[30m is around 5 characters. Escaping it to
-#          | \[\e[30m\] essentially makes it 0 characters.
+#          | \[\e[30m essentially makes it 0 characters.
 #          |
 #          | Example (what I want): root@machine > last_command 1 2 3 4
 #          | Example (what I got) : root@machine > last_last_command 1 2 3 4
 #          |
-#          | Adding \[ ... \] around the color codes in the PS1 command prompt brings us back to "what
+#          | Adding \[ ...  around the color codes in the PS1 command prompt brings us back to "what
 #          | I want".
 #----------+--------------------------------------------------------------------------------------------
 ########################################################################################################
@@ -29,60 +29,60 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _colors() {
    # Escape characters
-   ESC="\[\e["
+   ESC="\e["
    
    # Set
-   BOLD="${ESC}1m\]"
-   DIM="${ESC}2m\]"
-   UNDERLINE="${ESC}4m\]"
-   BLINK="${ESC}5m\]"
-   REVERSE="${ESC}7m\]"
-   HIDDEN="${ESC}8m\]"
+   BOLD="${ESC}1m"
+   DIM="${ESC}2m"
+   UNDERLINE="${ESC}4m"
+   BLINK="${ESC}5m"
+   REVERSE="${ESC}7m"
+   HIDDEN="${ESC}8m"
 
    # Reset
-   RESET_ALL="${ESC}0m\]"
-   NO_BOLD="${ESC}21m\]"
-   NO_DIM="${ESC}22m\]"
-   NO_UNDERLINE="${ESC}24m\]"
-   NO_BLINK="${ESC}25m\]"
-   NO_REVERSE="${ESC}27m\]"
-   NO_HIDDEN="${ESC}28m\]"
+   RESET_ALL="${ESC}0m"
+   NO_BOLD="${ESC}21m"
+   NO_DIM="${ESC}22m"
+   NO_UNDERLINE="${ESC}24m"
+   NO_BLINK="${ESC}25m"
+   NO_REVERSE="${ESC}27m"
+   NO_HIDDEN="${ESC}28m"
          
    # Standard 16 colors
-   BLACK="${ESC}30m\]"
-   RED="${ESC}31m\]"
-   GREEN="${ESC}32m\]"
-   ORANGE="${ESC}33m\]"
-   BLUE="${ESC}34m\]"
-   PURPLE="${ESC}35m\]"
-   CYAN="${ESC}36m\]"
-   LIGHTGRAY="${ESC}37m\]"
-   DARKGRAY="${ESC}90m\]"
-   LIGHTRED="${ESC}91m\]"
-   LIGHTGREEN="${ESC}92m\]"
-   YELLOW="${ESC}93m\]"
-   LIGHTBLUE="${ESC}94m\]"
-   LIGHTPURPLE="${ESC}95m\]"
-   LIGHTCYAN="${ESC}96m\]"
-   WHITE="${ESC}97m\]"
+   BLACK="${ESC}30m"
+   RED="${ESC}31m"
+   GREEN="${ESC}32m"
+   ORANGE="${ESC}33m"
+   BLUE="${ESC}34m"
+   PURPLE="${ESC}35m"
+   CYAN="${ESC}36m"
+   LIGHTGRAY="${ESC}37m"
+   DARKGRAY="${ESC}90m"
+   LIGHTRED="${ESC}91m"
+   LIGHTGREEN="${ESC}92m"
+   YELLOW="${ESC}93m"
+   LIGHTBLUE="${ESC}94m"
+   LIGHTPURPLE="${ESC}95m"
+   LIGHTCYAN="${ESC}96m"
+   WHITE="${ESC}97m"
    
    # Backgrounds
-   BACK_BLACK="${ESC}40m\]"
-   BACK_RED="${ESC}41m\]"
-   BACK_GREEN="${ESC}42m\]"
-   BACK_ORANGE="${ESC}43m\]"
-   BACK_BLUE="${ESC}44m\]"
-   BACK_PURPLE="${ESC}45m\]"
-   BACK_CYAN="${ESC}46m\]"
-   BACK_LIGHTGRAY="${ESC}47m\]"
-   BACK_DARKGRAY="${ESC}100m\]"
-   BACK_LIGHTRED="${ESC}101m\]"
-   BACK_LIGHTGREEN="${ESC}102m\]"
-   BACK_YELLOW="${ESC}103m\]"
-   BACK_LIGHTBLUE="${ESC}104m\]"
-   BACK_LIGHTPURPLE="${ESC}105m\]"
-   BACK_LIGHTCYAN="${ESC}106m\]"
-   BACK_WHITE="${ESC}107m\]"
+   BACK_BLACK="${ESC}40m"
+   BACK_RED="${ESC}41m"
+   BACK_GREEN="${ESC}42m"
+   BACK_ORANGE="${ESC}43m"
+   BACK_BLUE="${ESC}44m"
+   BACK_PURPLE="${ESC}45m"
+   BACK_CYAN="${ESC}46m"
+   BACK_LIGHTGRAY="${ESC}47m"
+   BACK_DARKGRAY="${ESC}100m"
+   BACK_LIGHTRED="${ESC}101m"
+   BACK_LIGHTGREEN="${ESC}102m"
+   BACK_YELLOW="${ESC}103m"
+   BACK_LIGHTBLUE="${ESC}104m"
+   BACK_LIGHTPURPLE="${ESC}105m"
+   BACK_LIGHTCYAN="${ESC}106m"
+   BACK_WHITE="${ESC}107m"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -216,8 +216,9 @@ git_branch() {
 # is specific for the command line.
 #
 # check_trash() - Checks the trash to see if there are any items in it.
-# add_2_trash() - Moves the file to the trash directory.
+# remove()      - Moves a file or entire directory tree to the trash directory.
 # empty_trash() - Empties _ALL_ contents of the trash directory.
+# restore()     - Restores a file or directory from the trash to the original location.
 #
 # TODO 1. Implement restore capabilities by keeping track of the directory location of the trashed file.
 # TODO 2. Empty one item at a time. 
@@ -244,22 +245,6 @@ check_trash() {
   fi
 }
 
-# Add an item to the trash.
-add_2_trash() {
-   if [[ ! -d ${TRASH_LOCATION} ]]; then
-      mkdir -p ${TRASH_LOCATION}   
-   fi
-   if [[ "X${1}" == "X" ]]; then 
-      _error
-      echo ""
-      _separator 
-      _print_cyan "You must supply a file to be trashed."
-      _separator 
-   else
-      mv -f ${1} ${TRASH_LOCATION} 
-   fi
-}
-
 # Empty the trash.
 empty_trash() {
    if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then 
@@ -269,7 +254,7 @@ empty_trash() {
       _separator
    else
       _warning
-      checkt
+      check_trash
       echo ""
       echo -n "Are you sure want to empty the trash? Type exactly YES to empty: "
       read answer
@@ -295,7 +280,7 @@ remove() {
       mkdir -p ${TRASH_LOCATION}
    fi
 
-   # If parameter 1 of rm is empty, throw an error and break out of the function.
+   # If parameter 1 of remove is empty, throw an error and break out of the function.
    if [[ "X${1}" == "X" ]]; then
       _error
       echo ""
@@ -305,16 +290,53 @@ remove() {
       return
    fi
 
-   # Get location of the file or directory that is being deleted. NOTE: Removing a
-   # directory will also remove all content under that directory - exactly how rm -r
-   # works EXCEPT that the file will be moved with full path to trash instead of
-   # actually being deleted.
+   # Define local variables to this function.
+   local FILE_BASENAME;
+   local DIRECTORY_LOCATION; 
+   local NEW_TRASH_AREA;
+   local isFile; 
+
+   # Get location of the file or directory that is being deleted. Remove the first
+   # / so that file or directory can be moved to $HOME/.local/Trash.
    if [[ -f ${1} ]]; then
+      isFile="true"
       FILE_BASENAME=`basename ${1}`
+      DIRECTORY_LOCATION=`readlink -f ${1}`
+      DIRECTORY_LOCATION=`dirname ${DIRECTORY_LOCATION}`
+      DIRECTORY_LOCATION=`echo ${DIRECTORY_LOCATION:1}`
    elif [[ -d ${1} ]]; then
-      DIR_BASENAME=`basename ${1}` 
+      isFile="false"
+      DIRECTORY_LOCATION=`readlink -f ${1}` 
+      DIRECTORY_LOCATION=`echo ${DIRECTORY_LOCATION:1}`
+   else
+      _error;
+      echo ""
+      _separator
+      _print_cyan "Can only put files and directories in the trash can."
+      _print_cyan "If you're looking to remove sockets or pipes, use"
+      _print_cyan "rm instead."
+      return
    fi
-   DIRECTORY_LOCATION=`readlink ${1}` 
+
+   # If it's a file, make the directory first in the trash area and then move the
+   # file to that location.
+   if [[ ${isFile} == "true" ]]; then 
+      NEW_TRASH_AREA=${TRASH_LOCATION}/${DIRECTORY_LOCATION}
+      mkdir -p ${NEW_TRASH_AREA} 
+      mv /${DIRECTORY_LOCATION}/${FILE_BASENAME} ${NEW_TRASH_AREA}
+      rm -f /${DIRECTORY_LOCATION}/${FILE_BASENAME}
+   else 
+      NEW_TRASH_AREA=${TRASH_LOCATION}/`dirname ${DIRECTORY_LOCATION}`
+      mkdir -p ${NEW_TRASH_AREA}
+      mv /${DIRECTORY_LOCATION} ${NEW_TRASH_AREA}
+   fi
+}
+
+# Restore a file or directory to its original location.
+restore() {
+   # Show first level directory of ~/.local/Trash
+   ls -1A ${TRASH_LOCATION} | nl
+   echo ""
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -400,6 +422,6 @@ kp() {
 #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Execute these immediately. 
-TRASH_LOCATION=~/.local/Trash
-SESSION_LOCATION=~/.local/session
+export TRASH_LOCATION=~/.local/Trash
+export SESSION_LOCATION=~/.local/session
 _colors
