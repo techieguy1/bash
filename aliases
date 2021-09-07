@@ -70,6 +70,10 @@ alias cond="conda deactivate"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for raspberry pi's.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias a0="ssh -p 22 argon000"
+alias a1="ssh -p 22 argon001"
+alias a2="ssh -p 22 argon002"
+alias a3="ssh -p 22 argon003"
 alias h0="ssh -p 22 helium000"
 alias h1="ssh -p 22 helium001"
 alias h2="ssh -p 22 helium002"
@@ -78,7 +82,6 @@ alias h4="ssh -p 22 helium004"
 alias h5="ssh -p 22 helium005"
 alias h6="ssh -p 22 helium006"
 alias hy1="ssh -p 22 hydrogen001"
-alias ai="ssh -p 22 ai"
 alias ceres="ssh ceres -p 29559"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
