@@ -104,7 +104,7 @@ _warning() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Error
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_error() {
+printError() {
    printf "${WHITE}${BACK_RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
    printf "${WHITE}${BACK_RED}!    E R R O R     E R R O R     E R R O R     E R R O R     E R R O R     E R R O R     E R R O R    !${RESET_ALL}\n"     
    printf "${WHITE}${BACK_RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
@@ -116,7 +116,7 @@ _error() {
 #
 # Example: _error_exit "Your custom error  message" ${LINENO}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_error_exit() {
+printErrorExit() {
    _error
    _print_cyan "${1:-"Unknown Error"} on line ${2}."
    exit
@@ -125,7 +125,7 @@ _error_exit() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This is a clean exit (no errors).
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_exit() {
+cleanExit() {
    _print_cyan "${1}"
    exit
 }
@@ -133,21 +133,21 @@ _exit() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Pretty printing of output with cyan.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_print_cyan() {
+printCyan() {
    printf "${CYAN}${1}${NO_COLOR}${2}\n"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Pretty printing of output with yellow.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_print_yellow() {
+printYellow() {
    printf "${YELLOW}${1}${NO_COLOR}${2}\n"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Press any key to continue...
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_press_any_key() {
+pressAnyKey() {
    printf "${LIGHT_BLUE}"
    read -p "Press enter to continue..."
    printf "${NO_COLOR}"
@@ -215,9 +215,9 @@ git_branch() {
 # Trash functions. Note: MacOS uses ~/.Trash directory which I don't recommend using here. The following 
 # is specific for the command line.
 #
-# check_trash() - Checks the trash to see if there are any items in it.
+# checkTrash()  - Checks the trash to see if there are any items in it.
 # remove()      - Moves a file or entire directory tree to the trash directory.
-# empty_trash() - Empties _ALL_ contents of the trash directory.
+# emptyTrash()  - Empties _ALL_ contents of the trash directory.
 # restore()     - Restores a file or directory from the trash to the original location.
 #
 # TODO 1. Implement restore capabilities by keeping track of the directory location of the trashed file.
@@ -225,7 +225,7 @@ git_branch() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Is there anything in the trash?
-check_trash() {
+checkTrash() {
    local items_files=`find ${TRASH_LOCATION} -type f -name '*' -print | wc -l | xargs`
    local items_directories=`find ${TRASH_LOCATION} -type d -name '*' -print | wc -l | xargs`
    local size=`du -hs ${TRASH_LOCATION} | cut -f1 | xargs`
@@ -246,7 +246,7 @@ check_trash() {
 }
 
 # Empty the trash.
-empty_trash() {
+emptyTrash() {
    if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then 
       echo ""
       _separator 
@@ -423,6 +423,13 @@ logDebug() {
    if [[ ${DEBUG} == "true" ]]; then
       printf "   ${WHITE}DEBUG${NO_COLOR} ::: Line #: ${WHITE}${1}${NO_COLOR}: ${CYAN}${2}: ${YELLOW}${3}${NO_COLOR}\n"
    fi
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a new PS1 for using in screenshots. Removes private info such as the user ID.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+newPS1() {
+   export PS1="${WHITE}>${NO_COLOR} "
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
