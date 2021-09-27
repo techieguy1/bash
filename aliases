@@ -51,6 +51,8 @@ alias cdv="cd ~/vmware"
 alias dev="cd ~/dev"
 alias docs="cd ~/Documents"
 alias down="cd ~/Downloads"
+alias ..="cd .."
+alias ...="cd ../.."
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for root.
