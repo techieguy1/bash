@@ -1,15 +1,30 @@
-alias sss="source ~/.bashrc"
+alias bbb="source ~/.bashrc"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for ls.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-alias ls='ls --color=auto --group-directories-first'
-alias ll='ls -l'
-alias la='ls -aFl'
+alias ls='ls --color --group-directories-first '
+alias ll='ls -l '
+alias la='ls -aFl '
 alias l='ls -lA '
-alias lt='du -sh * | sort -h'
-alias df="df -hT"
+alias lt='ls --human-readable --size -1 -S --classify'
 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Aliases for various commands.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias dfa="/usr/bin/df -hT"
+alias df="/usr/bin/df -hT | grep -v /dev/loop | grep -v tmpfs | grep -v udev"
+alias dir='ls -l | grep ^d'
+alias dus='du -sh * | sort -h'
+alias vdir='vdir --color=auto'
+alias vi='vim'
+ 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for grep-ping.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,6 +38,7 @@ alias egrep='egrep --color=auto'
 alias countfiles='find . -type f | wc -l'
 alias countdirs='find . -type d | wc -l'
 alias showf='declare -F'
+alias size="du -d 1 . | sort -k1 -n"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Change directory short cuts.
@@ -35,8 +51,47 @@ alias cdo="cd /opt"
 alias cdt="cd ~/.local/Trash"
 alias cdv="cd ~/vmware"
 alias dev="cd ~/dev"
+alias docs="cd ~/Documents"
 alias down="cd ~/Downloads"
-alias sun="cd ~/docs/sundays"
+alias l2="cd /linux2/home/ns1vman1"
+alias ..="cd .."
+alias .2="cd ../.."
+alias .3='cd ../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Aliases for root.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if [[ ${EUID} == 0 ]]; then
+   alias iii="dnf install "
+   alias rrr="dnf remove "
+   alias sss="dnf search "
+   alias uuu="dnf update "
+   alias inst="rpm -qa | grep "
+fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Aliases for Anaconda.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias cond="conda deactivate"
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Aliases for raspberry pi's.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias a0="ssh -p 22 argon000.lan"
+alias a1="ssh -p 22 argon001.lan"
+alias a2="ssh -p 22 argon002.lan"
+alias a3="ssh -p 22 argon003.lan"
+alias h0="ssh -p 22 helium000"
+alias h1="ssh -p 22 helium001"
+alias h2="ssh -p 22 helium002"
+alias h3="ssh -p 22 helium003"
+alias h4="ssh -p 22 helium004"
+alias h5="ssh -p 22 helium005"
+alias h6="ssh -p 22 helium006"
+alias hy1="ssh -p 22 hydrogen001"
+alias ceres="ssh ceres -p 29559"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for git.
