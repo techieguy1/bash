@@ -10,15 +10,15 @@
 #----------+--------------------------------------------------------------------------------------------
 # 20191127 | Vince: Initial revision.
 #----------+--------------------------------------------------------------------------------------------
-# 20200912 | Vince: Added \[ ... \] to prevent the command line history from shifting "right" when 
+# 20200912 | Vince: Added \[ ...  to prevent the command line history from shifting "right" when 
 #          | going through the history. This is due to the non-printable sequences making bash think
 #          | the line is bigger than it should be. So, \e[30m is around 5 characters. Escaping it to
-#          | \[\e[30m\] essentially makes it 0 characters.
+#          | \[\e[30m essentially makes it 0 characters.
 #          |
 #          | Example (what I want): root@machine > last_command 1 2 3 4
 #          | Example (what I got) : root@machine > last_last_command 1 2 3 4
 #          |
-#          | Adding \[ ... \] around the color codes in the PS1 command prompt brings us back to "what
+#          | Adding \[ ...  around the color codes in the PS1 command prompt brings us back to "what
 #          | I want".
 #----------+--------------------------------------------------------------------------------------------
 ########################################################################################################
@@ -29,60 +29,61 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 _colors() {
    # Escape characters
-   ESC="\[\e["
+   ESC="\e["
    
    # Set
-   BOLD="${ESC}1m\]"
-   DIM="${ESC}2m\]"
-   UNDERLINE="${ESC}4m\]"
-   BLINK="${ESC}5m\]"
-   REVERSE="${ESC}7m\]"
-   HIDDEN="${ESC}8m\]"
+   BOLD="${ESC}1m"
+   DIM="${ESC}2m"
+   UNDERLINE="${ESC}4m"
+   BLINK="${ESC}5m"
+   REVERSE="${ESC}7m"
+   HIDDEN="${ESC}8m"
 
    # Reset
-   RESET_ALL="${ESC}0m\]"
-   NO_BOLD="${ESC}21m\]"
-   NO_DIM="${ESC}22m\]"
-   NO_UNDERLINE="${ESC}24m\]"
-   NO_BLINK="${ESC}25m\]"
-   NO_REVERSE="${ESC}27m\]"
-   NO_HIDDEN="${ESC}28m\]"
+   RESET_ALL="${ESC}0m"
+   NO_COLOR="${ESC}0m"
+   NO_BOLD="${ESC}21m"
+   NO_DIM="${ESC}22m"
+   NO_UNDERLINE="${ESC}24m"
+   NO_BLINK="${ESC}25m"
+   NO_REVERSE="${ESC}27m"
+   NO_HIDDEN="${ESC}28m"
          
    # Standard 16 colors
-   BLACK="${ESC}30m\]"
-   RED="${ESC}31m\]"
-   GREEN="${ESC}32m\]"
-   ORANGE="${ESC}33m\]"
-   BLUE="${ESC}34m\]"
-   PURPLE="${ESC}35m\]"
-   CYAN="${ESC}36m\]"
-   LIGHTGRAY="${ESC}37m\]"
-   DARKGRAY="${ESC}90m\]"
-   LIGHTRED="${ESC}91m\]"
-   LIGHTGREEN="${ESC}92m\]"
-   YELLOW="${ESC}93m\]"
-   LIGHTBLUE="${ESC}94m\]"
-   LIGHTPURPLE="${ESC}95m\]"
-   LIGHTCYAN="${ESC}96m\]"
-   WHITE="${ESC}97m\]"
+   BLACK="${ESC}30m"
+   RED="${ESC}31m"
+   GREEN="${ESC}32m"
+   ORANGE="${ESC}33m"
+   BLUE="${ESC}34m"
+   PURPLE="${ESC}35m"
+   CYAN="${ESC}36m"
+   LIGHTGRAY="${ESC}37m"
+   DARKGRAY="${ESC}90m"
+   LIGHTRED="${ESC}91m"
+   LIGHTGREEN="${ESC}92m"
+   YELLOW="${ESC}93m"
+   LIGHTBLUE="${ESC}94m"
+   LIGHTPURPLE="${ESC}95m"
+   LIGHTCYAN="${ESC}96m"
+   WHITE="${ESC}97m"
    
    # Backgrounds
-   BACK_BLACK="${ESC}40m\]"
-   BACK_RED="${ESC}41m\]"
-   BACK_GREEN="${ESC}42m\]"
-   BACK_ORANGE="${ESC}43m\]"
-   BACK_BLUE="${ESC}44m\]"
-   BACK_PURPLE="${ESC}45m\]"
-   BACK_CYAN="${ESC}46m\]"
-   BACK_LIGHTGRAY="${ESC}47m\]"
-   BACK_DARKGRAY="${ESC}100m\]"
-   BACK_LIGHTRED="${ESC}101m\]"
-   BACK_LIGHTGREEN="${ESC}102m\]"
-   BACK_YELLOW="${ESC}103m\]"
-   BACK_LIGHTBLUE="${ESC}104m\]"
-   BACK_LIGHTPURPLE="${ESC}105m\]"
-   BACK_LIGHTCYAN="${ESC}106m\]"
-   BACK_WHITE="${ESC}107m\]"
+   BACK_BLACK="${ESC}40m"
+   BACK_RED="${ESC}41m"
+   BACK_GREEN="${ESC}42m"
+   BACK_ORANGE="${ESC}43m"
+   BACK_BLUE="${ESC}44m"
+   BACK_PURPLE="${ESC}45m"
+   BACK_CYAN="${ESC}46m"
+   BACK_LIGHTGRAY="${ESC}47m"
+   BACK_DARKGRAY="${ESC}100m"
+   BACK_LIGHTRED="${ESC}101m"
+   BACK_LIGHTGREEN="${ESC}102m"
+   BACK_YELLOW="${ESC}103m"
+   BACK_LIGHTBLUE="${ESC}104m"
+   BACK_LIGHTPURPLE="${ESC}105m"
+   BACK_LIGHTCYAN="${ESC}106m"
+   BACK_WHITE="${ESC}107m"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +105,7 @@ _warning() {
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Error
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_error() {
+printError() {
    printf "${WHITE}${BACK_RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
    printf "${WHITE}${BACK_RED}!    E R R O R     E R R O R     E R R O R     E R R O R     E R R O R     E R R O R     E R R O R    !${RESET_ALL}\n"     
    printf "${WHITE}${BACK_RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${RESET_ALL}\n"
@@ -116,41 +117,41 @@ _error() {
 #
 # Example: _error_exit "Your custom error  message" ${LINENO}
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_error_exit() {
+printErrorExit() {
    _error
-   _print_cyan "${1:-"Unknown Error"} on line ${2}."
+   _printCyan "${1:-"Unknown Error"} on line ${2}."
    exit
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # This is a clean exit (no errors).
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_exit() {
-   _print_cyan "${1}"
+cleanExit() {
+   _printCyan "${1}"
    exit
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Pretty printing of output with cyan.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_print_cyan() {
-   printf "${CYAN}${1}${NO_COLOR}${2}\n"
+_printCyan() {
+   printf "${CYAN}${1}${RESET_ALL}${2}\n"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Pretty printing of output with yellow.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_print_yellow() {
-   printf "${YELLOW}${1}${NO_COLOR}${2}\n"
+_printYellow() {
+   printf "${YELLOW}${1}${RESET_ALL}${2}\n"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Press any key to continue...
+# Press enter to continue...
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-_press_any_key() {
+pressEnterKey() {
    printf "${LIGHT_BLUE}"
    read -p "Press enter to continue..."
-   printf "${NO_COLOR}"
+   printf "${RESET_ALL}"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,7 +167,7 @@ glf() {
 proc() { 
    if [ $# -eq 0 ]; then
       _error; _separator
-      _print_cyan "You must enter a name to get the process listing: " "e.g.: proc myuser"
+      _printCyan "You must enter a name to get the process listing: " "e.g.: proc myuser"
       _separator
    else
       ps aux | grep --color=auto ${1} | grep -v grep
@@ -215,16 +216,17 @@ git_branch() {
 # Trash functions. Note: MacOS uses ~/.Trash directory which I don't recommend using here. The following 
 # is specific for the command line.
 #
-# check_trash() - Checks the trash to see if there are any items in it.
-# add_2_trash() - Moves the file to the trash directory.
-# empty_trash() - Empties _ALL_ contents of the trash directory.
+# checkTrash()  - Checks the trash to see if there are any items in it.
+# remove()      - Moves a file or entire directory tree to the trash directory.
+# emptyTrash()  - Empties _ALL_ contents of the trash directory.
+# restore()     - Restores a file or directory from the trash to the original location.
 #
 # TODO 1. Implement restore capabilities by keeping track of the directory location of the trashed file.
 # TODO 2. Empty one item at a time. 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # Is there anything in the trash?
-check_trash() {
+checkTrash() {
    local items_files=`find ${TRASH_LOCATION} -type f -name '*' -print | wc -l | xargs`
    local items_directories=`find ${TRASH_LOCATION} -type d -name '*' -print | wc -l | xargs`
    local size=`du -hs ${TRASH_LOCATION} | cut -f1 | xargs`
@@ -232,44 +234,28 @@ check_trash() {
    if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then
       echo ""
       _separator
-      _print_cyan "Trash is empty." 
+      _printCyan "Trash is empty." 
       _separator
    else
       echo ""
       _separator
-      _print_cyan "Trash has ${items_files} files in it."
-      _print_cyan "Trash has ${items_directories} directories in it."
-      _print_cyan "Total size is ${size}b."
+      _printCyan "Trash has ${items_files} files in it."
+      _printCyan "Trash has ${items_directories} directories in it."
+      _printCyan "Total size is ${size}b."
       _separator
   fi
 }
 
-# Add an item to the trash.
-add_2_trash() {
-   if [[ ! -d ${TRASH_LOCATION} ]]; then
-      mkdir -p ${TRASH_LOCATION}   
-   fi
-   if [[ "X${1}" == "X" ]]; then 
-      _error
-      echo ""
-      _separator 
-      _print_cyan "You must supply a file to be trashed."
-      _separator 
-   else
-      mv -f ${1} ${TRASH_LOCATION} 
-   fi
-}
-
 # Empty the trash.
-empty_trash() {
+emptyTrash() {
    if [[ ! "$(ls -A ${TRASH_LOCATION})" ]]; then 
       echo ""
       _separator 
-      _print_yellow "Trash is already empty."
+      _printYellow "Trash is already empty."
       _separator
    else
       _warning
-      checkt
+      check_trash
       echo ""
       echo -n "Are you sure want to empty the trash? Type exactly YES to empty: "
       read answer
@@ -277,12 +263,12 @@ empty_trash() {
          rm -fr ${TRASH_LOCATION}/*
          echo ""
          _separator
-         _print_cyan "Trash emptied."
+         _printCyan "Trash emptied."
          _separator
       else
          echo ""
          _separator
-         _print_yellow "Trash not emptied."
+         _printYellow "Trash not emptied."
          _separator
       fi
    fi
@@ -295,38 +281,76 @@ remove() {
       mkdir -p ${TRASH_LOCATION}
    fi
 
-   # If parameter 1 of rm is empty, throw an error and break out of the function.
+   # If parameter 1 of remove is empty, throw an error and break out of the function.
    if [[ "X${1}" == "X" ]]; then
       _error
       echo ""
       _separator
-      _print_cyan "You must supply a file or directory to be trashed."
+      _printCyan "You must supply a file or directory to be trashed."
       _separator
       return
    fi
 
-   # Get location of the file or directory that is being deleted. NOTE: Removing a
-   # directory will also remove all content under that directory - exactly how rm -r
-   # works EXCEPT that the file will be moved with full path to trash instead of
-   # actually being deleted.
+   # Define local variables to this function.
+   local FILE_BASENAME;
+   local DIRECTORY_LOCATION; 
+   local NEW_TRASH_AREA;
+   local isFile; 
+
+   # Get location of the file or directory that is being deleted. Remove the first
+   # / so that file or directory can be moved to $HOME/.local/Trash.
    if [[ -f ${1} ]]; then
+      isFile="true"
       FILE_BASENAME=`basename ${1}`
+      DIRECTORY_LOCATION=`readlink -f ${1}`
+      DIRECTORY_LOCATION=`dirname ${DIRECTORY_LOCATION}`
+      DIRECTORY_LOCATION=`echo ${DIRECTORY_LOCATION:1}`
    elif [[ -d ${1} ]]; then
-      DIR_BASENAME=`basename ${1}` 
+      isFile="false"
+      DIRECTORY_LOCATION=`readlink -f ${1}` 
+      DIRECTORY_LOCATION=`echo ${DIRECTORY_LOCATION:1}`
+   else
+      _error;
+      echo ""
+      _separator
+      _printCyan "Can only put files and directories in the trash can."
+      _printCyan "If you're looking to remove sockets or pipes, use"
+      _printCyan "rm instead."
+      return
    fi
-   DIRECTORY_LOCATION=`readlink ${1}` 
+
+   # If it's a file, make the directory first in the trash area and then move the
+   # file to that location.
+   if [[ ${isFile} == "true" ]]; then 
+      NEW_TRASH_AREA=${TRASH_LOCATION}/${DIRECTORY_LOCATION}
+      mkdir -p ${NEW_TRASH_AREA} 
+      mv /${DIRECTORY_LOCATION}/${FILE_BASENAME} ${NEW_TRASH_AREA}
+      rm -f /${DIRECTORY_LOCATION}/${FILE_BASENAME}
+   else 
+      NEW_TRASH_AREA=${TRASH_LOCATION}/`dirname ${DIRECTORY_LOCATION}`
+      mkdir -p ${NEW_TRASH_AREA}
+      mv /${DIRECTORY_LOCATION} ${NEW_TRASH_AREA}
+   fi
+}
+
+# Restore a file or directory to its original location.
+# TODO Fix restore() function
+restore() {
+   # Show first level directory of ~/.local/Trash
+   ls -1A ${TRASH_LOCATION} | nl
+   echo ""
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Log my session using script.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-log() {
+logMySession() {
    if [[ ! -d ${SESSION_LOCATION} ]]; then
       mkdir -p ${SESSION_LOCATION}
    fi
 
    SESSION_DATE=`date +"%Y%m%d%H%M%S"`
-   _separator; _print_cyan "Press CTRL-D or type 'exit' to exit logging."; _separator
+   _separator; _printCyan "Press CTRL-D or type 'exit' to exit logging."; _separator
    script ${SESSION_LOCATION}/session_${SESSION_DATE}.log
 }
 
@@ -375,7 +399,7 @@ kp() {
    if [[ "X${1}" == "X" ]]; then
       _error
       echo "" 
-      _print_cyan "Nothing to kill."
+      _printCyan "Nothing to kill."
       echo ""
       _separator
    else
@@ -383,15 +407,118 @@ kp() {
       if [ $? -gt 0 ]; then
          _error 
          echo "" 
-	 _print_cyan "${1} process does not exist."
+	 _printCyan "${1} process does not exist."
 	 echo ""
 	 _separator
       else
          _separator
-         _print_cyan "${1} process killed."
+         _printCyan "${1} process killed."
          _separator
       fi
    fi
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Exit a script cleanly.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+exit_script() {
+   log ""
+   log "Exit code: ${?}"
+   log ""
+   log "++++++++++++++++++++++++++++++++++++++++++++++++++"
+   log "|                       END                      |"
+   log "++++++++++++++++++++++++++++++++++++++++++++++++++"
+   exit
+}
+ 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Log an error during script execution.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+error() {
+   local functionName=${1}
+   local errorLineNumber=${2}
+   local errorCode=${3}
+   local errorDescription=${4}
+
+   log "${RED}ERROR${RESET_ALL}: Function ${functionName}: Line # ${errorLineNumber}: Error code ${errorCode}: ${errorDescription}"
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Logging utility.
+#   $1 = Any log information you want.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+logInfo() {
+   local logInfo=${1}
+   local logTimestamp=`date +%Y%m%d%H%M%S`
+
+   if [[ ${DEBUG,,} == "true" ]]; then
+      printf "${BLACK}${BACK_YELLOW}DEBUG${RESET_ALL} ::: " 
+   fi
+   printf "${logTimestamp}: ${CYAN}${FUNCNAME[1]}${RESET_ALL}: ${logInfo}\n"
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Adds debugging information to any script.
+#   $1 = Line number from calling function.
+#   $2 = Any debugging information you want.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+logDebug() {
+   local lineNumber=${1}
+   local logInfo=${2}
+
+   if [[ ${DEBUG,,} == "true" ]]; then
+      logInfo "Line #: ${WHITE}${lineNumber}${RESET_ALL}: ${YELLOW}${logInfo}${RESET_ALL}"
+   fi
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create a new PS1 for using in screenshots. Removes private info such as the user ID.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+newPS1() {
+   export PS1="${WHITE}>${RESET_ALL} "
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# View any markdown file using lynx and pandoc.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+md() {
+   pandoc "${1}" | lynx -stdin
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Do a cool thing on the screen when first logging in.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+screenBroadcastMessage() {
+   clear
+   x=`tput lines`
+   y=`tput cols`
+
+   HOST=`hostname`
+   MESG1="Welcome to ${HOST^^}"
+   MESG2="Kernel version `uname -r | cut -f1-3 -d"."`"
+
+   LEN_MESG1=${#MESG1}
+   LEN_MESG2=${#MESG2}
+
+   POS_MESG1=$(((y-LEN_MESG1)/2))
+   POS_MESG2=$(((y-LEN_MESG2)/2))
+
+   TOP_POS=$(((x-6)/2))
+
+   tput cup ${TOP_POS} ${POS_MESG1}; echo -e "${CYAN}${MESG1}${NO_COLOR}"
+   tput cup $((TOP_POS+2)) ${POS_MESG2}; echo ${MESG2}
+
+   tput cup $((x-3)) 0
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Replace spaces in the filename with underscores.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+replaceSpaces() {
+   for file in *' '*
+   do
+      mv -- "${file}" "${file// /_}"
+   done
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -400,6 +527,6 @@ kp() {
 #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Execute these immediately. 
-TRASH_LOCATION=~/.local/Trash
-SESSION_LOCATION=~/.local/session
+export TRASH_LOCATION=~/.local/Trash
+export SESSION_LOCATION=~/.local/session
 _colors

@@ -5,9 +5,12 @@ alias bbb="source ~/.bashrc"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias ls='ls --color --group-directories-first '
 alias ll='ls -l '
+alias ls-l='ll'
 alias la='ls -aFl '
+alias ls-a='la'
 alias l='ls -lA '
 alias lt='ls --human-readable --size -1 -S --classify'
+alias lsize='ls -lSr'
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Add an "alert" alias for long running commands.  Use like so:
@@ -20,7 +23,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias dfa="/usr/bin/df -hT"
 alias df="/usr/bin/df -hT | grep -v /dev/loop | grep -v tmpfs | grep -v udev"
-alias dir='ls -l | grep ^d'
+alias dir='ls -ld */' 
 alias dus='du -sh * | sort -h'
 alias vdir='vdir --color=auto'
 alias vi='vim'
@@ -39,6 +42,23 @@ alias countfiles='find . -type f | wc -l'
 alias countdirs='find . -type d | wc -l'
 alias showf='declare -F'
 alias size="du -d 1 . | sort -k1 -n"
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+alias ports='netstat -tulanp'
+
+# Get top processes eating memory
+alias psmem='ps auxf | sort -nr -k 4'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+ 
+# Get top processes eating cpu
+alias pscpu='ps auxf | sort -nr -k 3'
+alias pscpu10='ps auxf | sort -nr -k 3 | head -10'
+ 
+# Get server cpu info 
+alias cpuinfo='lscpu'
+ 
+# Get GPU ram on system 
+alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Change directory short cuts.
@@ -49,16 +69,24 @@ alias cde="cd ~/dev/eclipseWorkspace"
 alias cdl="cd /usr/local"
 alias cdo="cd /opt"
 alias cdt="cd ~/.local/Trash"
-alias cdv="cd ~/vmware"
+alias cdv="cd /virtual_machines/vmware"
 alias dev="cd ~/dev"
-alias docs="cd ~/Documents"
+alias docs="cd ~/docs"
 alias down="cd ~/Downloads"
-alias l2="cd /linux2/${HOME}"
-alias ..="cd .."
+alias frat='cd ${HOME}/dev/08...nst/ns-fraternity-ionic-app'
+alias iso="cd /virtual_machines/iso"
+alias nst='cd ${HOME}/dev/08...nst'
+alias pics="cd ~/docs/04...pics"
+alias tax="cd ~/docs/05...household/TAX"
+alias .1="cd .."
 alias .2="cd ../.."
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
+alias .6='cd ../../../../../..'
+alias .7='cd ../../../../../../..'
+alias .8='cd ../../../../../../../..'
+alias .9='cd ../../../../../../../../..'
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for root.
@@ -79,10 +107,14 @@ alias cond="conda deactivate"
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Aliases for raspberry pi's.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#     Raspberry Pi 4 Cluster
 alias a0="ssh -p 22 argon000.lan"
 alias a1="ssh -p 22 argon001.lan"
 alias a2="ssh -p 22 argon002.lan"
 alias a3="ssh -p 22 argon003.lan"
+#     Raspberry Pi 4 (2 GB RAM)
+alias hy1="ssh -p 22 hydrogen001"
+#     Raspberry Pi 3 Cluster
 alias h0="ssh -p 22 helium000"
 alias h1="ssh -p 22 helium001"
 alias h2="ssh -p 22 helium002"
@@ -90,7 +122,28 @@ alias h3="ssh -p 22 helium003"
 alias h4="ssh -p 22 helium004"
 alias h5="ssh -p 22 helium005"
 alias h6="ssh -p 22 helium006"
-alias hy1="ssh -p 22 hydrogen001"
+#     Raspberry Pi 3 - Environmental Monitoring
+alias carbon="ssh carbon -p 22"
+#     Raspberry Pi 3
+alias mercury="ssh mercury -p 22"
+#     Raspberry Pi 3
+alias sodium="ssh sodium -p 22"
+#     Raspberry Pi 3
+alias titanium="ssh titanium -p 22"
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Alias for virtual machines.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# RedHat 7.9
+alias xenon="ssh xenon -p 22"
+# RedHat 9.1
+alias thorium="ssh thorium -p 22"
+# AlmaLinux 9.1
+alias potassium="ssh potassium -p 22"
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Alias for NAS drive. 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 alias ceres="ssh ceres -p 29559"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

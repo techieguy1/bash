@@ -10,5 +10,5 @@ else
    PS1+="\n${LIGHTCYAN}└─▶${GREEN} \u@\h "
 fi
 PS1+="${LIGHTGREEN}${LIGHTCYAN}\$(git_branch)${LIGHTGREEN} \n"
-PS1+="\[${LIGHTCYAN}\]»\[${RESET_ALL}\] "
+PS1+="\[${LIGHTCYAN}\]»»»\[${RESET_ALL}\] "
 export PS1
