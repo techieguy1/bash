@@ -1,0 +1,75 @@
+unset PATH
+SYSTEM_PATH=/usr/lib64/ccache:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+USER_PATH=${HOME}/apps:${HOME}/.local/bin:.
+
+export JAVA_HOME=/opt/java
+export JRE_HOME=/opt/java
+export KOTLIN_HOME=${HOME}/apps/kotlin
+export GRAPHVIZ_DOT=/bin/dot
+export CUDA_HOME=/usr/local/cuda-12
+
+# Added by Toolbox App
+export JETBRAINS_TOOLBOX_PATH=${HOME}/.local/share/JetBrains/Toolbox/scripts
+export CAPACITOR_ANDROID_STUDIO_PATH="${HOME}/apps/jetbrains/apps/AndroidStudio/ch-0/213.7172.25.2113.9123335/bin/studio.sh"
+export ANDROID_HOME=${HOME}/apps/android/sdk
+
+# Set the PATH.
+export PATH=${USER_PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${JETBRAINS_TOOLBOX_PATH}:${KOTLIN_HOME}/bin:${JAVA_HOME}/bin:${JRE_HOME}/bin:${SYSTEM_PATH}:${CUDA_HOME}/bin
+
+# Don't want to use Anaconda if root.
+if [[ ${EUID} != 0 ]]; then
+# >>> conda initialize >>>
+   # !! Contents within this block are managed by 'conda init' !!
+   __conda_setup="$('${HOME}/apps/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+   if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+   else
+      if [ -f "${HOME}/apps/anaconda3/etc/profile.d/conda.sh" ]; then
+         . "${HOME}/apps/anaconda3/etc/profile.d/conda.sh"
+      else                                                                                                                
+         export PATH="${HOME}/apps/anaconda3/bin:$PATH"
+      fi
+   fi
+   unset __conda_setup
+# <<< conda initialize <<<
+fi # END if root
+
+export LD_LIBRARY_PATH=/usr/local/cuda-12/lib64:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
+
+# Specific for running graphical apps from CUDA samples.
+# Per NVidia docs.
+export __NV_PRIME_RENDER_OFFLOAD=1 
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+
+# Misc
+export NVM_COLORS='cmgRY'
+export EDITOR=/usr/bin/vim
+
+# History setup for all machines.
+shopt -s histappend
+export HISTIGNORE="ls:ll:history:h:&:[bf]g:dig*:ping:pwd:exit"
+export HISTTIMEFORMAT='%F %T '
+export HISTSIZE=100000
+export HISTFILE=${HOME}/.bash_history/bash_history
+export HISTCONTROL=ignoredups:erasedups
+
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# Colorize and fancy formatting for man pages.
+export LESS_TERMCAP_mb=$(printf '\e[01;31m') # enter blinking mode – red
+export LESS_TERMCAP_md=$(printf '\e[01;35m') # enter double-bright mode – bold, magenta
+export LESS_TERMCAP_me=$(printf '\e[0m')     # turn off all appearance modes (mb, md, so, us)
+export LESS_TERMCAP_se=$(printf '\e[0m')     # leave standout mode
+export LESS_TERMCAP_so=$(printf '\e[01;33m') # enter standout mode – yellow
+export LESS_TERMCAP_ue=$(printf '\e[0m')     # leave underline mode
+export LESS_TERMCAP_us=$(printf '\e[04;36m') # enter underline mode – cyan
+
+#export QT_STYLE_OVERRIDE=Adwaita-Dark
+#export QT_QPA_PLATFORMTHEME=gtk2
+#export QTLIB=/usr/lib64/qt5/lib
+#export QTINC=/usr/lib64/qt5/include
+#export QTDIR=/usr/lib64/qt5
+#export PATH=${QTDIR}/bin:${PATH}
+
+#export QT_AUTO_SCREEN_SCALE_FACTOR=0

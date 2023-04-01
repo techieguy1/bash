@@ -422,12 +422,12 @@ kp() {
 # Exit a script cleanly.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 exit_script() {
-   log ""
-   log "Exit code: ${?}"
-   log ""
-   log "++++++++++++++++++++++++++++++++++++++++++++++++++"
-   log "|                       END                      |"
-   log "++++++++++++++++++++++++++++++++++++++++++++++++++"
+   log "{LINENO}" "info" ""
+   log "{LINENO}" "info" "Exit code: ${?}"
+   log "{LINENO}" "info" ""
+   log "{LINENO}" "info" "++++++++++++++++++++++++++++++++++++++++++++++++++"
+   log "{LINENO}" "info" "|                       END                      |"
+   log "{LINENO}" "info" "++++++++++++++++++++++++++++++++++++++++++++++++++"
    exit
 }
  
@@ -440,35 +440,67 @@ error() {
    local errorCode=${3}
    local errorDescription=${4}
 
-   log "${RED}ERROR${RESET_ALL}: Function ${functionName}: Line # ${errorLineNumber}: Error code ${errorCode}: ${errorDescription}"
-}
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Logging utility.
-#   $1 = Any log information you want.
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-logInfo() {
-   local logInfo=${1}
-   local logTimestamp=`date +%Y%m%d%H%M%S`
-
-   if [[ ${DEBUG,,} == "true" ]]; then
-      printf "${BLACK}${BACK_YELLOW}DEBUG${RESET_ALL} ::: " 
-   fi
-   printf "${logTimestamp}: ${CYAN}${FUNCNAME[1]}${RESET_ALL}: ${logInfo}\n"
+   log "{LINENO}" "error" "Function ${functionName}: Line # ${errorLineNumber}: Error code ${errorCode}: ${errorDescription}"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Adds debugging information to any script.
-#   $1 = Line number from calling function.
-#   $2 = Any debugging information you want.
+# Adds enhanced logging information to any script.
+#   $1 = Log level: SEVERE, ERROR, WARN, INFO, DEBUG, TRACE (all with its own color)
+#        [log level is case-insensitive.]
+#   $2 = Line number from calling function.
+#   $3 = The log message. 
+#
+#   Usage: log "${LINENO}" "Error" "This is some message about the error."
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-logDebug() {
-   local lineNumber=${1}
-   local logInfo=${2}
+log() {
+   local lineNum=${1}
+   local level=${2}
+   local message=${3}
+   local logTimestamp=`date +"%Y-%m-%d %H:%M:%S"`
+   local levelColor="${RESET_ALL}"
+   local functionName="${CYAN}${FUNCNAME[1]}${RESET_ALL}"
 
-   if [[ ${DEBUG,,} == "true" ]]; then
-      logInfo "Line #: ${WHITE}${lineNumber}${RESET_ALL}: ${YELLOW}${logInfo}${RESET_ALL}"
+   if [[ "X${level}" == "X" ]]; then
+      printError
+      printf "Level missing. Level should be one of\n"
+      printf "  SEVERE\n  ERROR\n  WARN\n  INFO\n  DEBUG\n  TRACE\n"
+      return
+   elif [[ "${level,,}" == "severe" ]]; then
+      levelColor="${BACK_RED}${WHITE}"
+   elif [[ "${level,,}" == "error" ]]; then
+      levelColor="${RED}"
+   elif [[ "${level,,}" == "warn" ]]; then
+      levelColor="${YELLOW}"
+   elif [[ "${level,,}" == "info" ]]; then
+      levelColor="${GREEN}"
+   elif [[ "${level,,}" == "debug" ]]; then
+      levelColor="${CYAN}"
+   elif [[ "${level,,}" == "trace" ]]; then
+      levelColor="${WHITE}"
+   else
+      printError
+      printf "Level incorrect. Level should be one of\n"
+      printf "  SEVERE\n  ERROR\n  WARN\n  INFO\n  DEBUG\n  TRACE\n"
+      return
    fi
+   level="${level^^}"
+   printf "${logTimestamp} | ${BACK_WHITE}${BLACK}"
+   printf "%5s" "${lineNum}"
+   printf "${RESET_ALL} | ${levelColor}"
+   printf "%6s" "${level}"
+   printf "${RESET_ALL} | ${functionName} | ${message}\n"
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Test the output of the logger function.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+testLogger() { 
+   log "${LINENO}" "severe" "message" 
+   log "${LINENO}" "error" "message" 
+   log "${LINENO}" "warn" "message" 
+   log "${LINENO}" "info" "message" 
+   log "${LINENO}" "debug" "message" 
+   log "${LINENO}" "trace" "message"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

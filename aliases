@@ -63,6 +63,7 @@ alias gpumeminfo='grep -i --color memory /var/log/Xorg.0.log'
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Change directory short cuts.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+alias cd="pushd .; cd"
 alias cdb="cd ~/.bash_resources"
 alias cdd="cd ~/dev/bash"
 alias cde="cd ~/dev/eclipseWorkspace"
