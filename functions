@@ -460,12 +460,14 @@ log() {
    local levelColor="${RESET_ALL}"
    local functionName="${CYAN}${FUNCNAME[1]}${RESET_ALL}"
 
-   if [[ "X${level}" == "X" ]]; then
+   if [[ "X${lineNum}" == "X" ]]; then
       printError
-      printf "Level missing. Level should be one of\n"
-      printf "  SEVERE\n  ERROR\n  WARN\n  INFO\n  DEBUG\n  TRACE\n"
+      printf "Not enough parameters for log."
+      printf "\n\nUsage example: log \"\${LINENO}\" \"Error\" \"This is some message about the error.\"\n"
       return
-   elif [[ "${level,,}" == "severe" ]]; then
+   fi
+
+   if [[ "${level,,}" == "severe" ]]; then
       levelColor="${BACK_RED}${WHITE}"
    elif [[ "${level,,}" == "error" ]]; then
       levelColor="${RED}"
