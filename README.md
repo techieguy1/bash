@@ -7,15 +7,18 @@ Linux and can be safely removed.
 
 Also includes some dotfiles. 
 
+NOTE: SSH aliases to other systems only work with the local LAN. Those systems cannot be accessed
+from the outside. This was done on purpose for security reasons.
+
 ## Installation
 
 1. mkdir ~/.bash_resources
 2. Put aliases and exports files in ~/.bash_resources.
    
-   The original exports file is *not* included in git because it contains some sensitive information. I have
-   created a sample exports file for which you can use. Just drop the .sample extension.
+   ~~The original exports file is *not* included in git because it contains some sensitive information. I have
+   created a sample exports file for which you can use. Just drop the .sample extension.~~
 
-   Google how to create an exported variable in bash if you are unsure.
+   ~~Google how to create an exported variable in bash if you are unsure.~~
 
 3. Put .bashrc in your home's root directory.
 
