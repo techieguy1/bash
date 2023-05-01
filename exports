@@ -34,7 +34,7 @@ if [[ ${EUID} != 0 ]]; then
 # <<< conda initialize <<<
 fi # END if root
 
-export LD_LIBRARY_PATH=/usr/local/cuda-12/lib64:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
+export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:/usr/lib:/usr/local/lib:${LD_LIBRARY_PATH}
 
 # Specific for running graphical apps from CUDA samples.
 # Per NVidia docs.

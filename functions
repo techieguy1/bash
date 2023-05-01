@@ -447,62 +447,175 @@ error() {
 # Adds enhanced logging information to any script.
 #   $1 = Log level: SEVERE, ERROR, WARN, INFO, DEBUG, TRACE (all with its own color)
 #        [log level is case-insensitive.]
-#   $2 = Line number from calling function.
-#   $3 = The log message. 
-#
-#   Usage: log "${LINENO}" "Error" "This is some message about the error."
+#   $2 = Line number from the calling function.
+#   $3 = The function that made the call to logger.
+#   $4 = The log message.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-log() {
-   local lineNum=${1}
-   local level=${2}
-   local message=${3}
+logger() {
+   local lineNum="${1}"
+   local level="${2}"
+   local functionName="${3}"
+   local message="${4}"
    local logTimestamp=`date +"%Y-%m-%d %H:%M:%S"`
-   local levelColor="${RESET_ALL}"
-   local functionName="${CYAN}${FUNCNAME[1]}${RESET_ALL}"
+   local levelColor="${NO_COLOR}"
+   local validLevel=""
 
    if [[ "X${lineNum}" == "X" ]]; then
-      printError
+      _error
       printf "Not enough parameters for log."
-      printf "\n\nUsage example: log \"\${LINENO}\" \"Error\" \"This is some message about the error.\"\n"
-      return
-   fi
-
-   if [[ "${level,,}" == "severe" ]]; then
-      levelColor="${BACK_RED}${WHITE}"
-   elif [[ "${level,,}" == "error" ]]; then
-      levelColor="${RED}"
-   elif [[ "${level,,}" == "warn" ]]; then
-      levelColor="${YELLOW}"
-   elif [[ "${level,,}" == "info" ]]; then
-      levelColor="${GREEN}"
-   elif [[ "${level,,}" == "debug" ]]; then
-      levelColor="${CYAN}"
-   elif [[ "${level,,}" == "trace" ]]; then
-      levelColor="${WHITE}"
-   else
-      printError
-      printf "Level incorrect. Level should be one of\n"
+      printf "\n\nUsage example: log.<LEVEL> \"This is some message about the error.\"\n"
+      printf "Where level should be one of\n"
       printf "  SEVERE\n  ERROR\n  WARN\n  INFO\n  DEBUG\n  TRACE\n"
       return
    fi
-   level="${level^^}"
-   printf "${logTimestamp} | ${BACK_WHITE}${BLACK}"
-   printf "%5s" "${lineNum}"
-   printf "${RESET_ALL} | ${levelColor}"
-   printf "%6s" "${level}"
-   printf "${RESET_ALL} | ${functionName} | ${message}\n"
+
+   if [[ "X${LEVEL,,}" == "X" ]]; then
+      LEVEL="info"
+   fi
+
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   # Determine which color to print for each of the log levels and if the level is part of validLevel.
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   __printLog() {
+      if [[ "${level,,}" == "severe" ]]; then
+         levelColor="${WHITE}${BACK_RED}"
+      elif [[ "${level,,}" == "error" ]]; then
+         levelColor="${RED}"
+      elif [[ "${level,,}" == "warn" ]]; then
+         levelColor="${YELLOW}"
+      elif [[ "${level,,}" == "info" ]]; then
+         levelColor="${GREEN}"
+      elif [[ "${level,,}" == "debug" ]]; then
+         levelColor="${CYAN}"
+      elif [[ "${level,,}" == "trace" ]]; then
+         levelColor="${WHITE}"
+      else
+         _error
+         printf "Level incorrect. Level should be one of\n"
+         printf "  SEVERE\n  ERROR\n  WARN\n  INFO\n  DEBUG\n  TRACE\n"
+         return
+      fi
+
+      if echo "${validLevel}" | grep -wq "${level}"; then
+         level="${level^^}"
+         printf "${logTimestamp} | ${REVERSE}"
+         printf "%5s" "${lineNum}"
+         printf "${NO_COLOR} | ${levelColor}"
+         printf "%6s" "${level}"
+         printf "${NO_COLOR} | ${functionName} | ${message}\n"
+      fi
+   }
+
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   # Check which levels are valid to print.
+   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   __checkLogLevel() {
+      case "${LEVEL,,}" in
+      "severe")
+         validLevel="severe"
+         ;;
+      "error")
+         validLevel="severe error"
+         ;;
+      "warn")
+         validLevel="severe error warn"
+         ;;
+      "info")
+         validLevel="severe error warn info"
+         ;;
+      "debug")
+         validLevel="severe error warn info debug"
+         ;;
+      "trace")
+         validLevel="severe error warn info debug trace"
+         ;;
+      *)
+         # LEVEL was not set or incorrect. Default to INFO.
+         printf "${RED}Unknown level=${LEVEL}.${NO_COLOR}\n"
+         validLevel="severe error warn info"
+         ;;
+      esac
+      __printLog
+   }
+
+   __checkLogLevel
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Create aliases for the logger() function.
+#
+# $1 = ${LINENO} from the calling function.
+# $2 = The message of the log level.
+#
+# Usage in your script (example): log.info "${LINENO}" "Some message"
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+log.severe() {
+   logger "${1}" "severe" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
+}
+
+log.error() {
+   logger "${1}" "error" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
+}
+
+log.warn() {
+   logger "${1}" "warn" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
+}
+
+log.info() {
+   logger "${1}" "info" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
+}
+
+log.debug() {
+   logger "${1}" "debug" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
+}
+
+log.trace() {
+   logger "${1}" "trace" "${CYAN}${FUNCNAME[1]}${NO_COLOR}" "${2}"
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Test the output of the logger function.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-testLogger() { 
-   log "${LINENO}" "severe" "message" 
-   log "${LINENO}" "error" "message" 
-   log "${LINENO}" "warn" "message" 
-   log "${LINENO}" "info" "message" 
-   log "${LINENO}" "debug" "message" 
-   log "${LINENO}" "trace" "message"
+testLogger() {
+   log.severe "${LINENO}" "message"
+   log.error "${LINENO}" "message"
+   log.warn "${LINENO}" "message"
+   log.info "${LINENO}" "message"
+   log.debug "${LINENO}" "message"
+   log.trace "${LINENO}" "message"
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Logging utility.
+#   $1 = Log information
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+log() {
+   if [[ ${DEBUG,,} != "true" ]]; then
+      local logTimestamp=`date "+%Y-%m-%d %H:%M:%S"`
+      local functionName=${FUNCNAME[1]}
+      local logInfo=${1}
+
+      printf "${WHITE}${logTimestamp}${NO_COLOR}: ${CYAN}${functionName}${NO_COLOR}: ${YELLOW}${logInfo}${NO_COLOR}\n"
+   fi
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Debugging information. Only outputs if DEBUG=true.
+#   $1 = Always passed as ${LINENO} to logDebug
+#   $2 = Function name which is passed as ${FUNCNAME} to logDebug
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+logDebug() {
+   if [[ ${DEBUG,,} == "true" ]]; then
+      local lineNumber=${1}
+      local logInfo=${2}
+      local logTimestamp=`date "+%Y-%m-%d %H:%M:%S"`
+      local functionName=${FUNCNAME[1]}
+
+      printf "${RED}DEBUG${NO_COLOR} ::: Line ${YELLOW}"
+      printf "%5s" "${lineNumber}"
+      printf "${NO_COLOR}: "
+      printf "${WHITE}${logTimestamp}${NO_COLOR}: ${CYAN}${functionName}${NO_COLOR}: ${YELLOW}${logInfo}${NO_COLOR}\n"
+   fi
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
