@@ -622,7 +622,21 @@ logDebug() {
 # Create a new PS1 for using in screenshots. Removes private info such as the user ID.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 newPS1() {
+   # Save the original PS1.
+   export originalPS1=$(echo ${PS1})
    export PS1="${WHITE}>${RESET_ALL} "
+}
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Bring back the original PS1 that was defined in .bashrc at login. 
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+originalPS1() {
+   if [[ "X${originalPS1}" != "X" ]]; then
+      export PS1="${originalPS1} "
+   else
+      printf "The original PS1 was never set. Keeping current PS1.\n"
+      printf "If you want the original PS1, execute ${CYAN}exec bash${RESET_ALL}.\n"
+   fi
 }
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
