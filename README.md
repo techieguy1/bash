@@ -105,7 +105,7 @@ work at a low level.
 1. Don't attempt to hack into your friend's or neighbor's wifi. The consequences are huge, and the law 
 will not be in your favor. Just don't do it.
 1. The best Linux distro is the one that you're most comfortable using. Stop with the Linux distro wars.
-1. Likewise, the best O/S is the one that you're most confortable using. Each O/S has their advantages
+1. Likewise, the best O/S is the one that you're most comfortable using. Each O/S has their advantages
 and disadvantages.
     - I use MacOS, Linux, and Windows equally.
 1. If you're in your 30's and 40's and still gaming on the weekends and into the wee hours of the night, 
